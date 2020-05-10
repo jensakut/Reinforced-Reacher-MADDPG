@@ -141,13 +141,27 @@ The following changes were experimentally changed in the ParReacher object to re
         self.critic_fc2_units = 128
         self.file_name = 'Reacher_Linux_NoVis/Reacher.x86_64'
 
-        self.update_every = 4  # timesteps between updates
+        self.update_every = 1  # timesteps between updates
         # self.num_updates = 16  # num of update passes when updating
 
-        self.epsilon_decay = 0  # 1e-6  # decay for epsilon above
+        self.epsilon_decay = 1e-6  # decay for epsilon above
 
 
 <img src="results/reacher-optimized-parameters.png" width="60%" align="top-left alt="Reacher Training Results" title="Reacher Training results"/>
+
+While the above configuration is optimized for fast learning, the algorithm does not seem to converge without significant
+variance, as seen in the individual scores and the standard deviation. 
+To mitigate this, the following changes lead to a slower, but more thorough learning resulting in much less variance at
+the end. The Ohrnstein-Uhlenbeck noise is not decayed and the policy gets stronger. 
+These parameters taken from episode 200 are the considered the best parameters. 
+Using watch_reacher.py, the quick learner indeed showed some errors in reaching the target. The slowly learned network
+showed only two slower response times to reach the target but was flawlessly everywhere else.
+This is seen in the variance of the score. 
+
+        self.update_every = 4  
+        self.epsilon_decay = 1e-6  # decay for epsilon which is a reduction factor for the ounoise
+
+<img src="results/slow_learning_least_variance.png" width="60%" align="top-left alt="Reacher Training Results" title="Reacher Training results"/>
 
 
 The network architecture is as follows: 
@@ -172,6 +186,15 @@ The cricic also uses the reference network with a reduced number of neural netwo
       (fc2): Linear(in_features=132, out_features=128, bias=True)
       (fc3): Linear(in_features=128, out_features=1, bias=True)
     )
+
+# Future work
+
+Results could be improved by using a policy-based black box learning algorithm like hillclimbing or 
+[evolution strategies](https://openai.com/blog/evolution-strategies/) to improve the meta parameters. The parameter 
+exploration helps to evaluate the maximum performance of the algorithm. 
+As DDPG is similar to dqn, improvements like priority experience replay can further help improving the score. 
+Furthermore, it would be intereseting to use further [ algorithms]()
+ 
 
 # Background
 ## Policy-based methods 
