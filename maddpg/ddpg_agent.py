@@ -33,12 +33,16 @@ class Agent():
         self.actor_local = Actor(state_size, action_size, par).to(device)
         self.actor_target = Actor(state_size, action_size, par).to(device)
         self.actor_optimizer = optim.Adam(self.actor_local.parameters(), lr=par.lr_actor)
+        print('actor')
+        print(self.actor_local)
 
         # Critic Network (w/ Target Network)
         self.critic_local = Critic(state_size, action_size, par).to(device)
         self.critic_target = Critic(state_size, action_size, par).to(device)
         self.critic_optimizer = optim.Adam(self.critic_local.parameters(), lr=par.lr_critic,
                                            weight_decay=par.weight_decay)
+        print('critic')
+        print(self.critic_local)
 
         # Noise process
         self.noise = OUNoise(action_size, par.random_seed, par.ou_mu, par.ou_theta, par.ou_sigma)
@@ -158,6 +162,7 @@ class Agent():
         for target_param, param in zip(target.parameters(), source.parameters()):
             target_param.data.copy_(param.data)
 
+
 class OUNoise:
     """Ornstein-Uhlenbeck process."""
 
@@ -179,6 +184,7 @@ class OUNoise:
         dx = self.theta * (self.mu - x) + self.sigma * np.array([random.random() for i in range(len(x))])
         self.state = x + dx
         return self.state
+
 
 class ReplayBuffer:
     """Fixed-size buffer to store experience tuples."""
@@ -208,8 +214,10 @@ class ReplayBuffer:
         states = torch.from_numpy(np.vstack([e.state for e in experiences if e is not None])).float().to(device)
         actions = torch.from_numpy(np.vstack([e.action for e in experiences if e is not None])).float().to(device)
         rewards = torch.from_numpy(np.vstack([e.reward for e in experiences if e is not None])).float().to(device)
-        next_states = torch.from_numpy(np.vstack([e.next_state for e in experiences if e is not None])).float().to(device)
-        dones = torch.from_numpy(np.vstack([e.done for e in experiences if e is not None]).astype(np.uint8)).float().to(device)
+        next_states = torch.from_numpy(np.vstack([e.next_state for e in experiences if e is not None])).float().to(
+            device)
+        dones = torch.from_numpy(np.vstack([e.done for e in experiences if e is not None]).astype(np.uint8)).float().to(
+            device)
         return states, actions, rewards, next_states, dones
 
     def __len__(self):

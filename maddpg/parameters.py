@@ -25,11 +25,13 @@ class Par:
 
         # Further parameter not found in paper
         self.random_seed = 15  # random seed
-        self.update_every = 1  # timesteps between updates
+        self.update_every = 16  # timesteps between updates
         self.num_updates = 1  # num of update passes when updating
         self.epsilon = 1.0  # epsilon for the noise process added to the actions
-        self.epsilon_decay = 1e-6  # decay for epsilon above
+        self.epsilon_decay = 0  # decay for epsilon above
         self.num_episodes = 1000  # number of episodes
+        self.file_name = 'Reacher_Linux_NoVis/Reacher.x86_64'
+        self.file_name_watch = 'Reacher_Linux_20_Agents/Reacher.x86_64'
 
 
 class ParReacher(Par):
@@ -37,7 +39,6 @@ class ParReacher(Par):
         super(ParReacher, self).__init__()
 
         # tuned parameter to "reach" the goal
-
         # Learning
         self.batch_size = 256  # minibatch size
         self.lr_actor = 1e-3  # learning rate of the actor
@@ -52,8 +53,16 @@ class ParReacher(Par):
         self.actor_fc2_units = 128
         self.critic_fcs1_units = 128
         self.critic_fc2_units = 128
+        self.file_name = 'Reacher_Linux_NoVis/Reacher.x86_64'
+
+        self.update_every = 4  # timesteps between updates
+        # self.num_updates = 16  # num of update passes when updating
+
+        self.epsilon_decay = 0  # 1e-6  # decay for epsilon above
 
 
 class ParCrawler(Par):
+    # class ParCrawler(Par):
     def __init__(self):
         super(ParCrawler, self).__init__()
+        self.file_name = 'Crawler_Linux_12_Agents/Crawler.x86_64'
