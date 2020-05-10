@@ -11,7 +11,7 @@
 This project uses reinforcement learning to control a set of robotic arms. Reinforcement learning is used in many real-world examples. 
 This project uses a robotic picker environment to develop and verify multi-agent reinforcement learning in continous control. 
 
-<img src="assets/robot-pickers.gif" width="60%" align="top-left alt="Robot Arms" title="Robot Arms"/>
+![Alt text](assets/robot-pickers.gif?raw=true "Title")
 
 *Photo credit: [Google AI Blog](https://ai.googleblog.com/2018/06/scalable-deep-reinforcement-learning.html)*
 
@@ -119,7 +119,7 @@ are assumed to be as follows:
         self.num_episodes = 1000  # number of episodes
         
 The result is not so good, as depicted in the illustration. The network learns almost nothing. 
-<img src="results/paper_parameters.png" width="60%" align="top-left alt="Reacher Training Results" title="Reacher Training results"/>
+![Alt text](results/paper_parameters.png?raw=true "Title")
 
 The following changes were experimentally changed in the ParReacher object to reach a higher score: 
 
@@ -146,8 +146,8 @@ The following changes were experimentally changed in the ParReacher object to re
 
         self.epsilon_decay = 1e-6  # decay for epsilon above
 
+![Alt text](reacher-optimized-parameters.png?raw=true "Title")
 
-<img src="results/reacher-optimized-parameters.png" width="60%" align="top-left alt="Reacher Training Results" title="Reacher Training results"/>
 
 While the above configuration is optimized for fast learning, the algorithm does not seem to converge without significant
 variance, as seen in the individual scores and the standard deviation. 
@@ -161,7 +161,8 @@ This is seen in the variance of the score.
         self.update_every = 4  
         self.epsilon_decay = 1e-6  # decay for epsilon which is a reduction factor for the ounoise
 
-<img src="results/slow_learning_least_variance.png" width="60%" align="top-left alt="Reacher Training Results" title="Reacher Training results"/>
+
+![Alt text](results/slow_learning_least_variance.png?raw=true "Title")
 
 
 The network architecture is as follows: 
